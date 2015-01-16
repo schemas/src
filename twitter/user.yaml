@@ -1,0 +1,100 @@
+id: "http://schemas.github.io/twitter/user#"
+$schema: "http://json-schema.org/draft-04/schema#"
+additionalProperties: false
+properties:
+  id:
+    type: integer
+  id_str:
+    type: string
+    pattern: ^\d+$
+  name:
+    type: string
+  screen_name:
+    type: string
+  location:
+    type: string
+  profile_location:
+    type: string
+  description:
+    type: string
+  url: &string-uri-schema
+    type: string
+    format: uri
+  entities:
+    type: object
+    properties:
+      url: &urls-array-schema
+        type: object
+        properties:
+          urls:
+            type: array
+            items:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  pattern: ^https?://t\.co/
+                expanded_url:
+                  type: string
+                  format: uri
+                  description: "Original URL entered by user (resolved)"
+                display_url:
+                  type: string
+                  description: "Partial URL displayed as link text"
+                indices:
+                  type: array
+                  items:
+                    - type: integer
+                    - type: integer
+      description:
+        urls: *urls-array-schema
+  protected: &boolean-schema
+    type: boolean
+  followers_count:
+    type: integer
+  friends_count:
+    type: integer
+  listed_count:
+    type: integer
+  created_at:
+    type: string
+    format: date-time
+  favourites_count:
+    type: integer
+  utc_offset:
+    type: integer
+  time_zone:
+    type: string
+  geo_enabled: *boolean-schema
+  verified: *boolean-schema
+  statuses_count:
+    type: integer
+  lang:
+    type: string
+    description: "Refers to the [BCP 47](http://tools.ietf.org/html/bcp47) language identifier corresponding to the user's selection in their account settings."
+  status:
+    # this is a full status except for the "user" property
+    $ref: http://schemas.github.io/twitter/status
+  contributors_enabled: *boolean-schema
+  is_translator: *boolean-schema
+  is_translation_enabled: *boolean-schema
+  profile_background_color: &string-color-schema
+    type: string
+    pattern: '^[A-F0-9]{6}$'
+  profile_background_image_url: *string-uri-schema
+  profile_background_image_url_https: *string-uri-schema
+  profile_background_tile: *boolean-schema
+  profile_image_url: *string-uri-schema
+  profile_image_url_https: *string-uri-schema
+  profile_banner_url: *string-uri-schema
+  profile_link_color: *string-color-schema
+  profile_sidebar_border_color: *string-color-schema
+  profile_sidebar_fill_color: *string-color-schema
+  profile_text_color: *string-color-schema
+  profile_use_background_image: *boolean-schema
+  default_profile: *boolean-schema
+  default_profile_image: *boolean-schema
+  following: *boolean-schema
+  follow_request_sent: *boolean-schema
+  notifications: *boolean-schema

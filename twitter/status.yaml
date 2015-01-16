@@ -1,0 +1,124 @@
+id: "http://schemas.github.io/twitter/status#"
+$schema: "http://json-schema.org/draft-04/schema#"
+additionalProperties: false
+properties:
+  created_at:
+    type: string
+    format: date-time
+  id:
+    type: integer
+  id_str:
+    type: string
+    pattern: ^\d+$
+  text:
+    type: string
+  source:
+    type: string
+  truncated:
+    type: boolean
+  in_reply_to_status_id:
+    type: integer
+  in_reply_to_status_id_str:
+    type: string
+    pattern: ^\d+$
+  in_reply_to_user_id:
+    type: integer
+  in_reply_to_user_id_str:
+    type: string
+    pattern: ^\d+$
+  in_reply_to_screen_name:
+    type: string
+  user:
+    $ref: http://schemas.github.io/twitter/user
+  geo:
+    type: object
+    description: 'Deprecated: use "coordinates" instead.'
+  coordinates:
+    type: object
+  place:
+    type: object
+  contributors:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+        id_str:
+          type: string
+          pattern: ^\d+$
+        screen_name:
+          type: string
+    description: "Optional list of other Twitter users that contributed to the status."
+  retweet_count:
+    type: integer
+  favorite_count:
+    type: integer
+  entities:
+    type: object
+    properties:
+      hashtags:
+        type: array
+        description: "Hashtags, marked by tokens beginning with '#'"
+        items:
+          type: object
+          properties:
+            text:
+              type: string
+              description: "Does not include the initial # character"
+            indices: &indices-schema
+              type: array
+              items:
+                - type: integer
+                - type: integer
+      symbols:
+        type: array
+        description: "Financial symbols, marked by tokens beginning with '$'"
+        items:
+          type: object
+          properties:
+            text:
+              type: string
+              description: "Does not include the initial $ character"
+            indices: *indices-schema
+      user_mentions:
+        type: array
+        description: "User screen names, marked by tokens beginning with '@'"
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            id_str:
+              type: string
+              pattern: ^\d+$
+            name:
+              type: string
+            screen_name:
+              type: string
+            indices: *indices-schema
+      urls:
+        type: array
+        description: "URLs, marked by tokens beginning with 'http://' or 'https://'"
+        items:
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+              pattern: ^https?://t\.co/
+            expanded_url:
+              type: string
+              format: uri
+              description: "Original URL entered by user (resolved)"
+            display_url:
+              type: string
+              description: "Partial URL displayed as link text"
+            indices: *indices-schema
+  favorited:
+    type: boolean
+  retweeted:
+    type: boolean
+  lang:
+    type: string
+    description: 'Refers to a [BCP 47](http://tools.ietf.org/html/bcp47) language identifier, or "und" if no language could be automatically determined.'
