@@ -7,6 +7,7 @@ Resources used in deriving the schemas:
   - [Official Twitter documentation: users](https://dev.twitter.com/overview/api/users)
   - [twitter-api-fields-as-crowdsourced/wiki](https://github.com/episod/twitter-api-fields-as-crowdsourced/wiki)
 
+
 ## Consumption
 
 See [https://github.com/schemas/schemas.github.io](https://github.com/schemas/schemas.github.io).

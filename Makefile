@@ -1,4 +1,4 @@
-SCHEMAS = twitter/status twitter/user
+SCHEMAS = twitter
 
 all: $(SCHEMAS:%=schemas.github.io/%)
 
@@ -6,4 +6,4 @@ schemas.github.io:
 	git clone git@github.com:schemas/schemas.github.io.git
 
 schemas.github.io/%: %.yaml | schemas.github.io
-	yaml2json <$< | jq . > $@
+	yaml2json <$< >$@

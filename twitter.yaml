@@ -1,0 +1,264 @@
+id: "http://schemas.github.io/twitter#"
+$schema: "http://json-schema.org/draft-04/schema#"
+status:
+  # id: "http://schemas.github.io/twitter#/status"
+  type: object
+  additionalProperties: false
+  properties:
+    created_at:
+      # Twitter renders dates in RFC 2822 format (dumb!), but "format: date-time" requires RFC 3339
+      type: string
+    id:
+      type: integer
+    id_str:
+      type: string
+      pattern: ^\d+$
+    text:
+      type: string
+    source:
+      type: string
+    truncated:
+      type: boolean
+    in_reply_to_status_id:
+      type: [integer, "null"]
+    in_reply_to_status_id_str:
+      type: [string, "null"]
+      pattern: ^\d+$
+    in_reply_to_user_id:
+      type: [integer, "null"]
+    in_reply_to_user_id_str:
+      type: [string, "null"]
+      pattern: ^\d+$
+    in_reply_to_screen_name:
+      type: [string, "null"]
+    user:
+      $ref: '#/user'
+    retweeted_status:
+      $ref: '#/status'
+    geo:
+      type: [object, "null"]
+      description: 'Deprecated: use "coordinates" instead.'
+    coordinates:
+      type: [object, "null"]
+    place:
+      type: [object, "null"]
+    contributors:
+      type: [array, "null"]
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          id_str:
+            type: string
+            pattern: ^\d+$
+          screen_name:
+            type: string
+      description: "Optional list of other Twitter users that contributed to the status."
+    retweet_count:
+      type: integer
+    favorite_count:
+      type: integer
+    entities:
+      type: object
+      properties:
+        hashtags:
+          type: array
+          description: "Hashtags, marked by tokens beginning with '#'"
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+                description: "Does not include the initial # character"
+              indices: &indices
+                type: array
+                items:
+                  - type: integer
+                  - type: integer
+        symbols:
+          type: array
+          description: "Financial symbols, marked by tokens beginning with '$'"
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+                description: "Does not include the initial $ character"
+              indices: *indices
+        user_mentions:
+          type: array
+          description: "User screen names, marked by tokens beginning with '@'"
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              id_str:
+                type: string
+                pattern: ^\d+$
+              name:
+                type: string
+              screen_name:
+                type: string
+                description: "Does not include the initial @ character"
+              indices: *indices
+        urls:
+          type: array
+          description: "URLs, marked by tokens beginning with 'http://' or 'https://'"
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                format: uri
+                pattern: ^https?://t\.co/
+              expanded_url:
+                type: string
+                # this may not pass "format: uri" due to unicode characters (usually accents) in the URL
+                description: "Original URL entered by user (resolved)"
+              display_url:
+                type: string
+                description: "Partial URL displayed as link text"
+              indices: *indices
+    favorited:
+      type: boolean
+    retweeted:
+      type: boolean
+    possibly_sensitive:
+      type: boolean
+    scopes:
+      # only occurs in retweeted statuses, and with one or the other of the properties
+      type: object
+      properties:
+        place_ids:
+          type: array
+          items:
+            type: string
+        followers:
+          type: boolean
+    lang:
+      type: string
+      description: 'Refers to a [BCP 47](http://tools.ietf.org/html/bcp47) language identifier, or "und" if no language could be automatically determined.'
+user:
+  # id: "http://schemas.github.io/twitter#/user"
+  type: object
+  additionalProperties: false
+  properties:
+    id:
+      type: integer
+    id_str:
+      type: string
+      pattern: ^\d+$
+    name:
+      type: string
+    screen_name:
+      type: string
+    location:
+      type: string
+    profile_location:
+      type: [string, "null"]
+    description:
+      type: string
+    url:
+      type: [string, "null"]
+      format: uri
+    entities:
+      type: object
+      properties:
+        url: &urls-array-schema
+          type: object
+          properties:
+            urls:
+              type: array
+              items:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+                  expanded_url:
+                    # this url may contain unicode characters, which invalidates "format: uri"
+                    type: [string, "null"]
+                    description: "Original URL entered by user (resolved)"
+                  display_url:
+                    type: string
+                    description: "Partial URL displayed as link text"
+                  indices:
+                    type: array
+                    items:
+                      - type: integer
+                      - type: integer
+        description:
+          urls: *urls-array-schema
+    protected:
+      type: boolean
+    followers_count:
+      type: integer
+    friends_count:
+      type: integer
+    listed_count:
+      type: integer
+    created_at:
+      # Twitter renders dates in RFC 2822 format (dumb!), but "format: date-time" requires RFC 3339
+      type: string
+    favourites_count:
+      type: integer
+    utc_offset:
+      type: [integer, "null"]
+    time_zone:
+      type: [string, "null"]
+    geo_enabled:
+      type: boolean
+    verified:
+      type: boolean
+    statuses_count:
+      type: integer
+    lang:
+      type: string
+      description: "Refers to the [BCP 47](http://tools.ietf.org/html/bcp47) language identifier corresponding to the user's selection in their account settings."
+    status:
+      # this is a full status except for the "user" property
+      $ref: '#/status'
+    contributors_enabled:
+      type: boolean
+    is_translator:
+      type: boolean
+    is_translation_enabled:
+      type: boolean
+    profile_background_color: &color
+      type: string
+      pattern: '^[A-F0-9]{6}$'
+    profile_background_image_url:
+      type: string
+      format: uri
+    profile_background_image_url_https:
+      type: string
+      format: uri
+    profile_background_tile:
+      type: boolean
+    profile_image_url:
+      type: string
+      format: uri
+    profile_image_url_https:
+      type: string
+      format: uri
+    profile_banner_url:
+      type: string
+      format: uri
+    profile_link_color: *color
+    profile_sidebar_border_color: *color
+    profile_sidebar_fill_color: *color
+    profile_text_color: *color
+    profile_use_background_image:
+      type: boolean
+    default_profile:
+      type: boolean
+    default_profile_image:
+      type: boolean
+    following:
+      type: [boolean, "null"]
+    follow_request_sent:
+      type: boolean
+    notifications:
+      type: [boolean, "null"]
