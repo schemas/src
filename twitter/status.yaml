@@ -123,6 +123,16 @@ properties:
     type: boolean
   possibly_sensitive:
     type: boolean
+  scopes:
+    # only occurs in retweeted statuses, and with one or the other of the properties
+    type: object
+    properties:
+      place_ids:
+        type: array
+        items:
+          type: string
+      followers:
+        type: boolean
   lang:
     type: string
     description: 'Refers to a [BCP 47](http://tools.ietf.org/html/bcp47) language identifier, or "und" if no language could be automatically determined.'

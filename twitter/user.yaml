@@ -34,9 +34,8 @@ properties:
                 url:
                   type: string
                   format: uri
-                  pattern: ^https?://t\.co/
                 expanded_url:
-                  type: string
+                  type: [string, "null"]
                   format: uri
                   description: "Original URL entered by user (resolved)"
                 display_url:
