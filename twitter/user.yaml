@@ -35,6 +35,7 @@ properties:
                   type: string
                   format: uri
                 expanded_url:
+                  # this may not pass validation due to unicode characters (usually accents) in the URL
                   type: [string, "null"]
                   format: uri
                   description: "Original URL entered by user (resolved)"
@@ -96,6 +97,8 @@ properties:
   profile_use_background_image: *boolean-schema
   default_profile: *boolean-schema
   default_profile_image: *boolean-schema
-  following: *boolean-schema
+  following:
+    type: [boolean, "null"]
   follow_request_sent: *boolean-schema
-  notifications: *boolean-schema
+  notifications:
+    type: [boolean, "null"]

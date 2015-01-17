@@ -110,6 +110,7 @@ properties:
               format: uri
               pattern: ^https?://t\.co/
             expanded_url:
+              # this may not pass validation due to unicode characters (usually accents) in the URL
               type: string
               format: uri
               description: "Original URL entered by user (resolved)"
