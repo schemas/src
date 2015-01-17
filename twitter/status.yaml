@@ -3,8 +3,8 @@ $schema: "http://json-schema.org/draft-04/schema#"
 additionalProperties: false
 properties:
   created_at:
+    # Twitter renders dates in RFC 2822 format (dumb!), but "format: date-time" requires RFC 3339
     type: string
-    format: date-time
   id:
     type: integer
   id_str:
@@ -17,28 +17,30 @@ properties:
   truncated:
     type: boolean
   in_reply_to_status_id:
-    type: integer
+    type: [integer, "null"]
   in_reply_to_status_id_str:
-    type: string
+    type: [string, "null"]
     pattern: ^\d+$
   in_reply_to_user_id:
-    type: integer
+    type: [integer, "null"]
   in_reply_to_user_id_str:
-    type: string
+    type: [string, "null"]
     pattern: ^\d+$
   in_reply_to_screen_name:
-    type: string
+    type: [string, "null"]
   user:
     $ref: http://schemas.github.io/twitter/user
+  retweeted_status:
+    $ref: '#'
   geo:
-    type: object
+    type: [object, "null"]
     description: 'Deprecated: use "coordinates" instead.'
   coordinates:
-    type: object
+    type: [object, "null"]
   place:
-    type: object
+    type: [object, "null"]
   contributors:
-    type: array
+    type: [array, "null"]
     items:
       type: object
       properties:
@@ -118,6 +120,8 @@ properties:
   favorited:
     type: boolean
   retweeted:
+    type: boolean
+  possibly_sensitive:
     type: boolean
   lang:
     type: string

@@ -14,11 +14,11 @@ properties:
   location:
     type: string
   profile_location:
-    type: string
+    type: [string, "null"]
   description:
     type: string
-  url: &string-uri-schema
-    type: string
+  url:
+    type: [string, "null"]
     format: uri
   entities:
     type: object
@@ -58,14 +58,14 @@ properties:
   listed_count:
     type: integer
   created_at:
+    # Twitter renders dates in RFC 2822 format (dumb!), but "format: date-time" requires RFC 3339
     type: string
-    format: date-time
   favourites_count:
     type: integer
   utc_offset:
-    type: integer
+    type: [integer, "null"]
   time_zone:
-    type: string
+    type: [string, "null"]
   geo_enabled: *boolean-schema
   verified: *boolean-schema
   statuses_count:
@@ -82,7 +82,9 @@ properties:
   profile_background_color: &string-color-schema
     type: string
     pattern: '^[A-F0-9]{6}$'
-  profile_background_image_url: *string-uri-schema
+  profile_background_image_url: &string-uri-schema
+    type: string
+    format: uri
   profile_background_image_url_https: *string-uri-schema
   profile_background_tile: *boolean-schema
   profile_image_url: *string-uri-schema
